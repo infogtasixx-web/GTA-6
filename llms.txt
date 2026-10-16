@@ -1,0 +1,35 @@
+# GTA 6 Countdown — Independent Grand Theft Auto VI Fan Guide
+
+> GTA 6 Countdown is an unofficial, independently maintained fan guide to Grand Theft Auto VI (GTA VI / GTA 6). It is not affiliated with Rockstar Games or Take-Two Interactive. Official announcements are the source of truth; distinguish confirmed facts from unannounced details.
+
+## Guide pages
+- [Home and release countdown](https://gtasixx.com/): release date, platform quick answer, official video gallery, live timezone countdown and FAQs.
+- [About GTA VI](https://gtasixx.com/about.html): concise facts about the game, release date, platforms, developer/publisher and setting.
+- [GTA VI story](https://gtasixx.com/story.html): spoiler-light official premise featuring Jason Duval, Lucia Caminos and the Leonida conspiracy.
+- [GTA VI characters](https://gtasixx.com/characters.html): Jason Duval, Lucia Caminos, Cal Hampton, Boobie Ike, Dre’Quan Priest, Real Dimez (Bae-Luxe and Roxy), Raul Bautista and Brian Heder.
+- [GTA VI locations](https://gtasixx.com/locations.html): Leonida, Vice City, the Leonida Keys, Port Gellhorn, Ambrosia, Grassrivers and Mount Kalaga National Park.
+- [GTA VI vehicles](https://gtasixx.com/vehicles.html): named vehicles and visible transport, with explicit notes that Rockstar has not published a complete vehicle roster.
+
+## Verified core facts (checked October 15, 2026)
+- Full title: Grand Theft Auto VI; common names: GTA VI and GTA 6.
+- Rockstar Games lists November 19, 2026 as the release date.
+- Announced platforms: PlayStation 5 and Xbox Series X|S. Rockstar has not announced a PC version.
+- Rockstar describes GTA VI as a single-player experience.
+- Setting: the fictional state of Leonida, including modern-day Vice City and destinations beyond the city.
+- Central protagonists: Jason Duval and Lucia Caminos.
+- Official synopsis: after an easy score goes wrong, Jason and Lucia find themselves in a criminal conspiracy stretching across Leonida and must rely on each other.
+- Rockstar currently names the ’95 Grotti Cheetah, ’55 Vapid Stanier Sedan, Ganado Retro Build, Shitzu Squalo and ’67 Vapid Dominator Buggy in edition-related content. This is not a complete vehicle list.
+- The live countdown on this site targets midnight at the start of November 19 in each selected timezone. Rockstar has not published an exact global unlock time on this site.
+
+## Primary sources
+- [Rockstar Games GTA VI](https://www.rockstargames.com/VI)
+- [Rockstar Games — Only in Leonida](https://www.rockstargames.com/VI/only-in-leonida)
+- [Rockstar Games — GTA VI media library](https://www.rockstargames.com/VI/media)
+- [Rockstar Games — editions and listed benefits](https://www.rockstargames.com/VI/editions)
+- [Rockstar Games — November 19, 2026 release announcement](https://www.rockstargames.com/newswire/article/ak3ak31a49a221/grand-theft-auto-vi-is-now-set-to-launch-november-19-2026)
+- [Rockstar Support — platforms and editions](https://support.rockstargames.com/articles/4QfG4FmZCf5W1gS8jy4UVT/grand-theft-auto-vi-platform-editions-and-versions)
+
+## Editorial notes
+- Use Rockstar Games as the primary source for release, platform, character, location, edition and vehicle claims.
+- Edition-specific vehicles do not imply a full game roster or universal availability in every edition.
+- Where the complete map, vehicle list, unlock time or PC version is not announced, say so plainly rather than filling the gap with rumor.
