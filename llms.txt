@@ -3,12 +3,14 @@
 > GTA 6 Countdown is an unofficial, independently maintained fan guide to Grand Theft Auto VI (GTA VI / GTA 6). It is not affiliated with Rockstar Games or Take-Two Interactive. Official announcements are the source of truth; distinguish confirmed facts from unannounced details.
 
 ## Guide pages
-- [Home and release countdown](https://gtasixx.com/): release date, platform quick answer, official video gallery, live timezone countdown and FAQs.
-- [About GTA VI](https://gtasixx.com/about.html): concise facts about the game, release date, platforms, developer/publisher and setting.
-- [GTA VI story](https://gtasixx.com/story.html): spoiler-light official premise featuring Jason Duval, Lucia Caminos and the Leonida conspiracy.
-- [GTA VI characters](https://gtasixx.com/characters.html): Jason Duval, Lucia Caminos, Cal Hampton, Boobie Ike, Dre’Quan Priest, Real Dimez (Bae-Luxe and Roxy), Raul Bautista and Brian Heder.
-- [GTA VI locations](https://gtasixx.com/locations.html): Leonida, Vice City, the Leonida Keys, Port Gellhorn, Ambrosia, Grassrivers and Mount Kalaga National Park.
-- [GTA VI vehicles](https://gtasixx.com/vehicles.html): named vehicles and visible transport, with explicit notes that Rockstar has not published a complete vehicle roster.
+- [Home and release countdown](https://gta-sixx.com/): release date, platform quick answer, official video gallery, live timezone countdown and FAQs.
+- [About GTA VI](https://gta-sixx.com/about): concise facts about the game, release date, platforms, developer/publisher and setting.
+- [GTA VI story](https://gta-sixx.com/story): spoiler-light official premise featuring Jason Duval, Lucia Caminos and the Leonida conspiracy.
+- [GTA VI characters](https://gta-sixx.com/characters): Jason Duval, Lucia Caminos, Cal Hampton, Boobie Ike, Dre’Quan Priest, Real Dimez (Bae-Luxe and Roxy), Raul Bautista and Brian Heder.
+- [GTA VI locations](https://gta-sixx.com/locations): Leonida, Vice City, the Leonida Keys, Port Gellhorn, Ambrosia, Grassrivers and Mount Kalaga National Park.
+- [GTA VI vehicles](https://gta-sixx.com/vehicles): named vehicles and visible transport, with explicit notes that Rockstar has not published a complete vehicle roster.
+
+- [Contact GTASIXX](https://gta-sixx.com/contact): contact details and correction submissions.
 
 ## Verified core facts (checked October 15, 2026)
 - Full title: Grand Theft Auto VI; common names: GTA VI and GTA 6.

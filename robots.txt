@@ -13,4 +13,4 @@ Allow: /
 User-agent: Google-Extended
 Allow: /
 
-Sitemap: https://gtasixx.com/sitemap.xml
+Sitemap: https://gta-sixx.com/sitemap.xml
