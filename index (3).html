@@ -510,6 +510,7 @@ h1 .line:nth-child(2) span{-webkit-text-stroke:2px var(--color-cream)}
 #news{background:var(--color-blush);color:var(--ink)}
 #news .wrap{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:24px}
 #news .wrap>.eyebrow,#news .wrap>h2{grid-column:1/-1}
+.news-more{grid-column:1/-1;margin:6px 0 0}
 .news{grid-column:span 4;display:flex;flex-direction:column;gap:0;margin:0;border-radius:18px;border-color:rgba(7,16,18,.1);background:rgba(255,255,255,.52);transform:none}
 .news-art{aspect-ratio:16/10;min-height:0;width:100%;background:#071012!important}
 .news-art img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.86;transition:transform .65s var(--ease),filter .4s}
@@ -740,7 +741,7 @@ footer .logo i{background:var(--color-rose)}
     <nav aria-label="Primary">
       <ul class="links" id="menu">
         <li><a href="#quick-answer">Release date</a></li>
-        <li><a href="#trailers">Trailers</a></li>
+        <li><a href="/news/">News</a></li><li><a href="#trailers">Trailers</a></li>
         <li><a href="/story/">Story</a></li>
         <li><a href="/characters/">Characters</a></li>
         <li><a href="/locations/">Locations</a></li>
@@ -891,6 +892,7 @@ footer .logo i{background:var(--color-rose)}
         <div><a class="btn btn-ghost" href="#timezones">See your release time</a></div>
       </div>
     </article>
+    <p class="news-more rv"><a class="btn btn-ghost" href="/news/">All GTA VI news <span aria-hidden="true">↗</span></a></p>
   </div>
 </section>
 
@@ -1024,7 +1026,7 @@ footer .logo i{background:var(--color-rose)}
   <div class="wrap">
     <div class="foot">
       <a class="logo" href="/"><img src="logo.svg" alt="" width="42" height="42"><span class="brand-wordmark">GTA <span>SIXX</span></span></a>
-      <nav class="site-pages" aria-label="Fan guide pages"><a href="/about/">About</a><a href="/story/">Story</a><a href="/characters/">Characters</a><a href="/locations/">Locations</a><a href="/vehicles/">Vehicles</a><a href="/contact/">Contact</a></nav>
+      <nav class="site-pages" aria-label="Fan guide pages"><a href="/about/">About</a><a href="/story/">Story</a><a href="/characters/">Characters</a><a href="/locations/">Locations</a><a href="/vehicles/">Vehicles</a><a href="/contact/">Contact</a><a href="/news/">News</a><a href="/privacy-policy/">Privacy Policy</a></nav>
       <ul>
         <li><a href="https://x.com/" rel="noopener" target="_blank">X</a></li>
         <li><a href="https://instagram.com/" rel="noopener" target="_blank">Instagram</a></li>

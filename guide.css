@@ -66,3 +66,32 @@
 @media(max-width:900px){.contact-layout{grid-template-columns:1fr}.contact-aside{grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}.contact-info,.contact-reasons{height:100%}.contact-faq-inner{grid-template-columns:1fr;gap:18px}.contact-faq-intro h2{max-width:700px}.contact-hero-inner{padding-right:clamp(220px,29vw,360px)}.contact-hero:after{right:-8%;width:clamp(190px,28vw,280px)}}
 @media(max-width:560px){.contact-hero{min-height:520px}.contact-hero-inner{padding:76px var(--gutter) 68px}.contact-hero h1{font-size:clamp(68px,20vw,96px)}.contact-intro{max-width:35ch;margin-top:23px}.contact-hero:after{right:-40%;top:50%;width:190px;opacity:.24}.contact-coordinate{right:18px;bottom:19px;font-size:8px}.contact-signal{margin-top:36px}.contact-workspace{padding-inline:18px}.contact-aside{grid-template-columns:1fr}.contact-fields{grid-template-columns:1fr;gap:18px}.contact-field-wide{grid-column:auto}.contact-form-panel{padding:23px 18px;border-radius:18px}.contact-field textarea{min-height:130px}.contact-footer .g-footer-nav{gap:13px}.contact-footer .contact-disclaimer{max-width:40ch}.contact-page .g-nav{gap:8px;padding-inline:18px}.contact-page .g-brand{gap:8px}.contact-page .g-brand small{font-size:8px;letter-spacing:.08em}.contact-page .g-official{padding:8px;font-size:9px;white-space:nowrap}}
 @media(prefers-reduced-motion:reduce){.contact-page .contact-jump,.contact-page .contact-jump span,.contact-page .contact-email span,.contact-page .contact-site span,.contact-page .contact-field input,.contact-page .contact-field textarea,.contact-page .contact-submit{transition:none}.contact-page .contact-jump:hover,.contact-page .contact-submit:hover{transform:none}}
+
+/* News and privacy pages extend the shared fan-guide system. */
+.news-hero{min-height:clamp(520px,62vw,720px)}
+.news-hero .g-actions{margin-top:32px}
+.news-list{background:var(--blush);color:var(--ink)}
+.news-grid{align-items:stretch}
+.news-card{display:flex;flex-direction:column;background:rgba(255,255,255,.66)}
+.news-card>img{aspect-ratio:16/10;object-fit:cover;background:var(--panel)}
+.news-card .g-card-body{display:flex;flex:1;flex-direction:column;align-items:flex-start}
+.news-card .g-tag{margin:0 0 14px;background:var(--lilac);color:var(--ink)}
+.news-card h3{font:800 clamp(22px,2.4vw,30px)/1.14 var(--display);letter-spacing:-.035em}
+.news-card p{margin:13px 0 0;color:rgba(7,16,18,.76);font-size:14px;line-height:1.7}
+.news-card .g-link{margin-top:auto;padding-top:22px;color:#5b3450}
+.news-card .g-source{display:inline-flex;margin-top:12px;color:rgba(7,16,18,.62);font-size:11px;font-weight:700;text-decoration:underline;text-underline-offset:3px}
+.news-source-note{margin:32px 0 0;color:rgba(7,16,18,.68);font-size:13px}
+.news-source-note a{font-weight:800;text-decoration:underline;text-underline-offset:4px}
+.privacy-hero{min-height:clamp(420px,48vw,580px);background-image:radial-gradient(ellipse at 76% 42%,rgba(204,194,245,.25),transparent 27%),radial-gradient(ellipse at 82% 48%,rgba(255,178,198,.2),transparent 45%),linear-gradient(120deg,#071012 12%,#101a1e 65%,#201722)}
+.privacy-content{background:var(--paper);color:var(--ink)}
+.privacy-content .g-label{color:#76516b}
+.privacy-content .g-prose{max-width:780px}
+.privacy-content .g-prose h3{margin-top:32px}
+.privacy-content .g-prose h3:first-child{margin-top:0}
+.privacy-content .g-prose a{color:#713957;font-weight:700}
+.privacy-summary{padding:clamp(22px,3vw,34px);border:1px solid rgba(7,16,18,.18);border-left:4px solid #b56b7d;border-radius:0 var(--radius) var(--radius) 0;background:rgba(255,255,255,.5);font-size:clamp(17px,2vw,20px);line-height:1.65}
+.privacy-content .g-note{margin-top:34px}
+.news-page a:focus-visible,.privacy-page a:focus-visible,.news-page button:focus-visible,.privacy-page button:focus-visible{outline-color:#b56b7d}
+@media(max-width:900px){.news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.news-card:last-child{grid-column:1/-1}.privacy-content .g-columns{gap:28px}}
+@media(max-width:560px){.news-grid{grid-template-columns:1fr}.news-card:last-child{grid-column:auto}.news-hero{min-height:560px}.news-hero .g-actions{align-items:stretch}.news-hero .g-actions .g-button{flex:1}.news-card .g-card-body{padding:21px}.privacy-hero{min-height:430px}}
+@media(prefers-reduced-motion:reduce){.news-page .g-card,.news-page .g-button,.privacy-page .g-card,.privacy-page .g-button{transition:none!important}.news-page .g-card:hover,.news-page .g-button:hover,.privacy-page .g-button:hover{transform:none}}
