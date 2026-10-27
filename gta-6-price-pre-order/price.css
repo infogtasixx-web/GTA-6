@@ -1,0 +1,46 @@
+.price-guide-page{--pp-cyan:#69e7ec;--pp-pink:#ff4f94}
+.pp-hero{min-height:560px;background:radial-gradient(ellipse at 82% 24%,rgba(255,79,148,.14),transparent 30%),radial-gradient(ellipse at 65% 90%,rgba(105,231,236,.1),transparent 35%),linear-gradient(125deg,#071012,#101a1e 70%,#17131b)}
+.pp-hero::before{background:repeating-linear-gradient(0deg,transparent 0 43px,rgba(105,231,236,.035) 44px),repeating-linear-gradient(90deg,transparent 0 43px,rgba(105,231,236,.035) 44px);transform:none}
+.pp-hero::after{display:none}
+.pp-hero-inner{padding-block:clamp(62px,9vw,112px) 60px}
+.pp-hero h1{max-width:900px;font-size:clamp(50px,8vw,100px)}
+.pp-hero .dek{max-width:700px}
+.pp-hero .g-meta{font-variant-numeric:tabular-nums}
+.pp-answer h2{max-width:900px}
+.pp-answer .g-answer{max-width:940px}
+.pp-price-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px;max-width:940px;margin-top:24px}
+.pp-price-card{padding:24px;border:1px solid rgba(7,16,18,.18);border-radius:18px;background:rgba(255,255,255,.57)}
+.pp-price-card.featured{background:linear-gradient(140deg,rgba(255,178,198,.62),rgba(255,255,255,.67))}
+.pp-price-label,.pp-store-platform{color:#4d5b5e;font-size:10px;font-weight:850;letter-spacing:.16em}
+.pp-price{margin:14px 0 3px;font:900 clamp(34px,5vw,54px)/1 var(--display);letter-spacing:-.06em;font-variant-numeric:tabular-nums}
+.pp-price small{font:750 12px var(--sans);letter-spacing:.04em}
+.pp-price-card>p:last-child{margin:9px 0 0;color:rgba(7,16,18,.72);font-size:14px}
+.pp-source-caption,.pp-reviewed{margin:20px 0 0;color:rgba(7,16,18,.68);font-size:12px;line-height:1.65}
+.pp-editions{background:linear-gradient(145deg,#111c20,#0b1316);color:var(--cloud)}
+.pp-editions .g-label,.pp-platforms .g-label,.pp-sources .g-label,.pp-faq .g-label,.pp-next .g-label{color:#526063}
+.pp-editions .g-label{color:var(--pp-cyan)}
+.pp-editions .g-prose a{color:var(--pp-cyan)}
+.pp-editions .g-prose p{max-width:740px}
+.pp-platforms .g-note{border-left-color:var(--pp-pink);background:rgba(255,255,255,.38)}
+.pp-store-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:30px}
+.pp-store-card{display:flex;flex-direction:column;min-height:182px;padding:21px;border:1px solid rgba(7,16,18,.19);border-radius:16px;background:rgba(255,255,255,.56);transition:transform .2s,border-color .2s,box-shadow .2s}
+.pp-store-card:hover{transform:translateY(-3px);border-color:rgba(7,16,18,.48);box-shadow:0 14px 32px rgba(7,16,18,.1)}
+.pp-store-card strong{margin-top:22px;font:800 18px/1.25 var(--display);letter-spacing:-.025em}
+.pp-store-card strong span{color:#a73e66}
+.pp-store-card small{margin-top:auto;padding-top:18px;color:rgba(7,16,18,.64);font-size:11px;line-height:1.5}
+.pp-faq{background:#f8f5ed;color:var(--ink)}
+.pp-faq .g-label{color:#5d6869}
+.pp-faq .g-faq{max-width:920px}
+.pp-faq .g-faq a{color:#58486f;text-decoration:underline;text-underline-offset:3px}
+.pp-faq .g-faq details[open] summary{color:#624057}
+.pp-faq .pp-reviewed{color:rgba(7,16,18,.65)}
+.pp-sources{background:#e5ddff;color:var(--ink)}
+.pp-source-list{display:grid;gap:0;margin:0;padding:0;list-style:none;border-top:1px solid rgba(7,16,18,.2)}
+.pp-source-list li{display:grid;gap:5px;padding:17px 0;border-bottom:1px solid rgba(7,16,18,.2)}
+.pp-source-list a{font-size:14px;font-weight:800;text-decoration:underline;text-decoration-color:rgba(7,16,18,.35);text-underline-offset:4px}
+.pp-source-list span{color:rgba(7,16,18,.67);font-size:12px;line-height:1.55}
+.pp-next .g-actions{margin-top:20px}
+.pp-next .g-button.secondary{border-color:rgba(7,16,18,.38);background:transparent;color:var(--ink)}
+@media(max-width:800px){.pp-store-grid{grid-template-columns:1fr}.pp-store-card{min-height:150px}.pp-hero{min-height:500px}}
+@media(max-width:560px){.pp-hero-inner{padding-block:55px 45px}.pp-hero h1{font-size:clamp(45px,13vw,68px)}.pp-price-grid{grid-template-columns:1fr}.pp-price-card{padding:19px}.pp-store-card{padding:18px}.pp-next .g-actions{display:grid;grid-template-columns:1fr}.pp-next .g-button{justify-content:center}}
+@media(prefers-reduced-motion:reduce){.pp-store-card,.price-guide-page .g-button{transition:none}.pp-store-card:hover{transform:none}}
