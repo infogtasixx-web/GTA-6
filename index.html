@@ -710,15 +710,14 @@ footer .logo i{background:var(--color-rose)}
 .guide-directory .eyebrow{color:#586164}
 .guide-directory h2{max-width:880px;color:var(--color-primary);font-size:clamp(38px,6vw,76px);line-height:1.02;letter-spacing:-.06em}
 .directory-intro{max-width:760px;color:rgba(7,16,18,.76);font-size:clamp(16px,1.7vw,20px);margin:20px 0 36px}
-.directory-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:16px}
-.directory-card{--card-tone:var(--color-cream);grid-column:span 2;display:flex;flex-direction:column;align-items:flex-start;min-height:325px;overflow:hidden;border:1px solid rgba(7,16,18,.17);border-radius:var(--radius-lg);background:rgba(255,255,255,.63);color:var(--color-primary);transition:transform .35s var(--ease),box-shadow .35s,border-color .25s}
-.directory-card:nth-last-child(2){grid-column:2/span 2}.directory-card:nth-last-child(1){grid-column:4/span 2}
+.directory-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.directory-card{--card-tone:var(--color-cream);display:flex;flex-direction:column;align-items:flex-start;min-height:325px;overflow:hidden;border:1px solid rgba(7,16,18,.17);border-radius:var(--radius-lg);background:rgba(255,255,255,.63);color:var(--color-primary);transition:transform .35s var(--ease),box-shadow .35s,border-color .25s}
 .directory-card:hover{transform:translateY(-6px);border-color:var(--card-tone);box-shadow:0 18px 46px rgba(7,16,18,.15)}
 .directory-card img{width:100%;height:178px;object-fit:cover;transition:transform .6s var(--ease)}.directory-card:hover img{transform:scale(1.04)}
 .directory-card .directory-label{margin:17px 20px 8px;padding:5px 10px;border-radius:99px;background:var(--card-tone);font-size:10px;font-weight:800;letter-spacing:.12em;text-transform:uppercase}
 .directory-card strong{margin:0 20px;font:800 clamp(20px,2vw,26px)/1.1 var(--font-display);letter-spacing:-.04em}
 .directory-card>span:last-child{margin:9px 20px 20px;color:rgba(7,16,18,.7);font-size:13px}
-@media(max-width:900px){.directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.directory-card,.directory-card:nth-last-child(2),.directory-card:nth-last-child(1){grid-column:auto}.directory-card{min-height:305px}.site-pages{gap:10px 14px}.site-pages a{font-size:11px}}
+@media(max-width:900px){.directory-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.directory-card{min-height:305px}.site-pages{gap:10px 14px}.site-pages a{font-size:11px}}
 @media(max-width:560px){.directory-grid{grid-template-columns:1fr}.directory-card{min-height:0}.directory-card img{height:auto;aspect-ratio:16/9}.directory-card strong{font-size:24px}}
 </style>
 </head>
@@ -823,6 +822,7 @@ footer .logo i{background:var(--color-rose)}
       <a class="directory-card rv" href="/characters/" style="--card-tone:var(--color-lavender)"><img src="https://i.ytimg.com/vi/tJbzMqJGH4k/hqdefault.jpg" alt="Characters from GTA VI media" loading="lazy"><span class="directory-label">People</span><strong>Characters</strong><span>The announced cast and connections →</span></a>
       <a class="directory-card rv" href="/locations/" style="--card-tone:var(--color-sage)"><img src="https://i.ytimg.com/vi/QdBZY2fkU-0/hqdefault.jpg" alt="Leonida and Vice City in GTA VI" loading="lazy"><span class="directory-label">World</span><strong>Map &amp; locations</strong><span>Vice City, the Keys and beyond →</span></a>
       <a class="directory-card rv" href="/vehicles/" style="--card-tone:var(--color-peach)"><img src="https://i.ytimg.com/vi/tJbzMqJGH4k/hqdefault.jpg" alt="Vehicles featured in GTA VI video media" loading="lazy"><span class="directory-label">Transport</span><strong>Vehicles</strong><span>Named vehicles and confirmed limits →</span></a>
+      <a class="directory-card rv" href="/gta-6-price-pre-order/" style="--card-tone:var(--color-rose)"><img src="/media/hero.svg" alt="Original GTA SIXX fan-made coastal night-drive illustration" loading="lazy"><span class="directory-label">Buying guide</span><strong>Price &amp; pre-order</strong><span>Official US edition prices, store links and regional details →</span></a>
     </div>
   </div>
 </section>
