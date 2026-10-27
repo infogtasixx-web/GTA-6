@@ -45,7 +45,7 @@
   {"@type":"VideoObject","name":"Grand Theft Auto VI Trailer 1","description":"The first official trailer for Grand Theft Auto VI, introducing Vice City and the state of Leonida.","thumbnailUrl":"https://i.ytimg.com/vi/QdBZY2fkU-0/hqdefault.jpg","uploadDate":"2023-12-04T15:07:10-08:00","embedUrl":"https://www.youtube.com/embed/QdBZY2fkU-0","contentUrl":"https://www.youtube.com/watch?v=QdBZY2fkU-0"},
   {"@type":"VideoObject","name":"Grand Theft Auto VI Trailer 2","description":"The second official trailer for Grand Theft Auto VI, featuring Jason Duval and Lucia Caminos.","thumbnailUrl":"https://i.ytimg.com/vi/VQRLujxTm3c/hqdefault.jpg","uploadDate":"2025-05-06T06:29:04-07:00","embedUrl":"https://www.youtube.com/embed/VQRLujxTm3c","contentUrl":"https://www.youtube.com/watch?v=VQRLujxTm3c"},
   {"@type":"VideoObject","name":"Grand Theft Auto VI: An Extended Look","description":"A 26-minute gameplay showcase premiering on Netflix on August 27, 2026, then on Rockstar's YouTube channel the same evening. Captured entirely in-game on PlayStation 5.","thumbnailUrl":"https://i.ytimg.com/vi/tJbzMqJGH4k/hqdefault.jpg","uploadDate":"2026-08-27T18:00:48-07:00","embedUrl":"https://www.youtube.com/embed/tJbzMqJGH4k","contentUrl":"https://www.youtube.com/watch?v=tJbzMqJGH4k"},
-  {"@type":"VideoObject","name":"Grand Theft Auto VI Launch Trailer","description":"Experience the official Grand Theft Auto VI Launch Trailer, released October 15, 2026. Rockstar's official video is embedded from Rockstar Games.","thumbnailUrl":"https://www.rockstargames.com/VI/_next/static/media/GTAVI_Launch_Trailer_poster.0_q-sdrgufc.s.jpg?akim=1&imdensity=1&imwidth=1920","uploadDate":"2026-10-15T13:00:26+00:00","embedUrl":"https://www.rockstargames.com/videoplayer?autoplay=false&embed=&id=76orsa95&locale=en_us","contentUrl":"https://www.rockstargames.com/VI/launch-trailer"},
+  {"@type":"VideoObject","name":"Grand Theft Auto VI Launch Trailer","description":"Experience the official Grand Theft Auto VI Launch Trailer, released October 15, 2026. Rockstar's official video is embedded from Rockstar Games.","thumbnailUrl":"https://www.rockstargames.com/VI/_next/static/media/GTAVI_Launch_Trailer_poster.0_q-sdrgufc.s.jpg?akim=1&imdensity=1&imwidth=960","uploadDate":"2026-10-15T13:00:26+00:00","embedUrl":"https://www.rockstargames.com/videoplayer?autoplay=false&embed=&id=76orsa95&locale=en_us","contentUrl":"https://www.rockstargames.com/VI/launch-trailer"},
   {"@type":"FAQPage","mainEntity":[
    {"@type":"Question","name":"When is the GTA 6 release date?","acceptedAnswer":{"@type":"Answer","text":"Grand Theft Auto VI (GTA 6) releases on November 19, 2026. Rockstar Games announced the November 19, 2026 date on November 6, 2025. Rockstar released the official Launch Trailer on October 15, 2026, reaffirming the date."}},
    {"@type":"Question","name":"Which platforms is GTA 6 coming to?","acceptedAnswer":{"@type":"Answer","text":"GTA 6 launches on PlayStation 5 and Xbox Series X|S. A PC release has not been announced."}},
@@ -110,12 +110,6 @@ h2{font-size:clamp(var(--text-3xl),5vw,var(--text-4xl));font-weight:900;margin-b
 
 #progress{position:fixed;inset:0 auto auto 0;height:3px;width:0;background:var(--color-rose);z-index:350}
 #glow{position:fixed;width:520px;height:520px;border-radius:50%;pointer-events:none;z-index:2;background:radial-gradient(circle,rgba(255,178,198,.1),transparent 62%);transform:translate(-50%,-50%);left:-999px;top:-999px;mix-blend-mode:screen}
-
-#loader{position:fixed;inset:0;background:var(--color-primary);z-index:500;display:grid;place-items:center;transition:opacity .7s var(--ease),visibility .7s}
-#loader.done{opacity:0;visibility:hidden}
-#loader .mark{font:900 clamp(64px,16vw,160px)/1 var(--font-display);color:transparent;-webkit-text-stroke:2px var(--color-accent);letter-spacing:-.04em;position:relative}
-#loader .mark::after{content:"GTA 6";position:absolute;inset:0;color:var(--color-accent);-webkit-text-stroke:0;clip-path:inset(100% 0 0 0);animation:fill 1.3s .1s var(--ease) forwards}
-@keyframes fill{to{clip-path:inset(0 0 0 0)}}
 
 header.site{position:fixed;inset:0 0 auto 0;z-index:300;transition:background .3s,backdrop-filter .3s,transform .4s var(--ease)}
 header.site.scrolled{background:rgba(0,0,0,.72);backdrop-filter:blur(14px);border-bottom:1px solid rgba(155,155,155,.18)}
@@ -732,7 +726,6 @@ footer .logo i{background:var(--color-rose)}
 <a class="skip" href="#main">Skip to content</a>
 <div id="progress"></div>
 <div id="glow" aria-hidden="true"></div>
-<div id="loader" aria-hidden="true"><div class="mark">GTA 6</div></div>
 
 <header class="site" id="top">
   <div class="wrap nav">
@@ -756,7 +749,7 @@ footer .logo i{background:var(--color-rose)}
 <!-- ============ HERO ============ -->
 <section id="hero" aria-labelledby="hero-h">
   <canvas id="bg" aria-hidden="true"></canvas>
-  <div class="hero-art" aria-hidden="true"><img src="https://www.rockstargames.com/VI/_next/static/media/Jason_Lucia_Lock_And_Load_landscape.0l9s5w7ih9p~3.jpg?akim=1&amp;imdensity=1&amp;imwidth=1920" alt="" fetchpriority="high"></div>
+  <div class="hero-art" aria-hidden="true"><img src="https://www.rockstargames.com/VI/_next/static/media/Jason_Lucia_Lock_And_Load_landscape.0l9s5w7ih9p~3.jpg?akim=1&amp;imdensity=1&amp;imwidth=960" alt="" fetchpriority="high"></div>
   <div class="sun" aria-hidden="true"></div>
   <div class="hero-city" aria-hidden="true"><svg id="heroCity" viewBox="0 0 1600 400" preserveAspectRatio="xMidYMax slice"></svg></div>
 
@@ -908,7 +901,7 @@ footer .logo i{background:var(--color-rose)}
       <div class="launch-frame">
         <div class="video" data-rockstar-embed="https://www.rockstargames.com/videoplayer?autoplay=false&amp;embed=&amp;id=76orsa95&amp;locale=en_us" data-title="Grand Theft Auto VI — Launch Trailer">
           <button class="facade" aria-label="Load the official Grand Theft Auto VI Launch Trailer player from Rockstar Games">
-            <img alt="Official Grand Theft Auto VI Launch Trailer poster from Rockstar Games" loading="lazy" decoding="async" src="https://www.rockstargames.com/VI/_next/static/media/GTAVI_Launch_Trailer_poster.0_q-sdrgufc.s.jpg?akim=1&amp;imdensity=1&amp;imwidth=1920"><span class="play"></span><span class="launch-play-label">LOAD ROCKSTAR PLAYER</span>
+            <img alt="Official Grand Theft Auto VI Launch Trailer poster from Rockstar Games" loading="lazy" decoding="async" src="https://www.rockstargames.com/VI/_next/static/media/GTAVI_Launch_Trailer_poster.0_q-sdrgufc.s.jpg?akim=1&amp;imdensity=1&amp;imwidth=960"><span class="play"></span><span class="launch-play-label">LOAD ROCKSTAR PLAYER</span>
           </button>
         </div>
       </div>
@@ -1046,11 +1039,7 @@ const clamp=(v,a=0,b=1)=>Math.min(b,Math.max(a,v));
 const ease=t=>1-Math.pow(1-t,3);
 const NS='http://www.w3.org/2000/svg';
 
-/* loader */
-let readied=false;
-function ready(){if(readied)return;readied=true;$('#loader').classList.add('done');document.body.classList.add('ready');$('#ringFg').style.strokeDashoffset=157.1*(1-ringP)}
-addEventListener('load',()=>setTimeout(ready,RM?0:1400));
-setTimeout(ready,3500);
+document.body.classList.add('ready');
 
 /* seeded rng */
 function rng(seed){return()=>(seed=(seed*16807)%2147483647)/2147483647}
@@ -1099,6 +1088,7 @@ let target=midnight(sel.value);
 const y0=Date.UTC(2026,0,1);
 let ringP=clamp((Date.now()-y0)/(midnight(local)-y0));
 $('#ringPct').textContent=Math.round(ringP*100)+'%';
+$('#ringFg').style.strokeDashoffset=157.1*(1-ringP);
 
 function setNum(el,val,instant){
   const next=String(val).padStart(2,'0');

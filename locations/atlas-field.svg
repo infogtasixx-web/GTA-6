@@ -1,0 +1,39 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 900" fill="none" role="img" aria-label="Abstract decorative atlas texture">
+  <defs>
+    <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
+      <path d="M40 0H0V40" stroke="#9AE7E7" stroke-opacity=".045"/>
+      <circle cx="1" cy="1" r="1" fill="#9AE7E7" fill-opacity=".16"/>
+    </pattern>
+    <linearGradient id="glow" x1="0" y1="0" x2="1" y2="1">
+      <stop stop-color="#69E7EC" stop-opacity=".09"/>
+      <stop offset=".48" stop-color="#081114" stop-opacity="0"/>
+      <stop offset="1" stop-color="#FF4F94" stop-opacity=".08"/>
+    </linearGradient>
+    <radialGradient id="field" cx="0" cy="0" r="1" gradientTransform="translate(600 450) rotate(90) scale(450 600)" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#12272B" stop-opacity=".82"/>
+      <stop offset="1" stop-color="#081114" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <path fill="#081114" d="M0 0h1200v900H0z"/>
+  <path fill="url(#field)" d="M0 0h1200v900H0z"/>
+  <path fill="url(#grid)" d="M0 0h1200v900H0z"/>
+  <path fill="url(#glow)" d="M0 0h1200v900H0z"/>
+  <g stroke="#9AE7E7" stroke-opacity=".14">
+    <path d="M30 88h52M56 62v52M1118 88h52m-26-26v52M30 812h52m-26-26v52m1062-26h52m-26-26v52"/>
+    <path d="M30 128h1140M30 772h1140" stroke-opacity=".11"/>
+    <circle cx="600" cy="450" r="286" stroke-dasharray="1 13"/>
+    <circle cx="600" cy="450" r="326" stroke-dasharray="1 19"/>
+    <circle cx="600" cy="450" r="366" stroke-dasharray="1 27"/>
+    <path d="M600 78v90m0 564v90M228 450h90m564 0h90" stroke-dasharray="2 10"/>
+  </g>
+  <g fill="#A8DCDD" fill-opacity=".36" font-family="Arial,sans-serif" font-size="10" font-weight="700" letter-spacing="2">
+    <text x="36" y="54">LEONIDA / FIELD ATLAS</text>
+    <text x="1018" y="54">SETTING INDEX</text>
+    <text x="36" y="856">RELATIONSHIP DIAGRAM</text>
+    <text x="1070" y="856">NO SCALE</text>
+  </g>
+  <g stroke="#FF4F94" stroke-opacity=".2">
+    <path d="M38 146h4m1116 0h4M38 754h4m1116 0h4"/>
+    <circle cx="600" cy="450" r="4" fill="#69E7EC" fill-opacity=".52" stroke="none"/>
+  </g>
+</svg>
