@@ -95,3 +95,6 @@
 @media(max-width:900px){.news-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.news-card:last-child{grid-column:1/-1}.privacy-content .g-columns{gap:28px}}
 @media(max-width:560px){.news-grid{grid-template-columns:1fr}.news-card:last-child{grid-column:auto}.news-hero{min-height:560px}.news-hero .g-actions{align-items:stretch}.news-hero .g-actions .g-button{flex:1}.news-card .g-card-body{padding:21px}.privacy-hero{min-height:430px}}
 @media(prefers-reduced-motion:reduce){.news-page .g-card,.news-page .g-button,.privacy-page .g-card,.privacy-page .g-button{transition:none!important}.news-page .g-card:hover,.news-page .g-button:hover,.privacy-page .g-button:hover{transform:none}}
+/* GTA SIXX supplied logo */
+.g-brand img{width:72px;height:72px;object-fit:contain}
+@media(max-width:560px){.g-brand img{width:60px;height:60px}}
