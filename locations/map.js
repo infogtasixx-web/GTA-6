@@ -15,7 +15,6 @@
   const description = document.getElementById('detail-description');
   const evidenceStatus = document.getElementById('detail-status');
   const source = document.getElementById('detail-source');
-  const sourceLink = document.getElementById('detail-source-link');
   const saveButton = document.getElementById('save-place');
   const visitButton = document.getElementById('visit-place');
   const shareButton = document.getElementById('share-place');
@@ -404,7 +403,6 @@
       description.textContent = 'Select a place to read what official material confirms—and what remains unverified.';
       evidenceStatus.textContent = 'Official name';
       source.textContent = 'Select a place to see its evidence source.';
-      sourceLink.hidden = true;
       saveButton.textContent = 'Save place';
       visitButton.textContent = 'Mark visited';
       shareButton.textContent = 'Copy place link';
@@ -414,8 +412,6 @@
     description.textContent = entry.description;
     evidenceStatus.textContent = entry.status;
     source.textContent = `${entry.source}. This confirms the name, not a geographic position.`;
-    sourceLink.href = entry.sourceUrl;
-    sourceLink.hidden = !entry.sourceUrl;
     saveButton.textContent = stateFor(entry.id, 'saved') ? 'Remove saved' : 'Save place';
     visitButton.textContent = stateFor(entry.id, 'visited') ? 'Remove found mark' : 'Mark found';
     shareButton.textContent = 'Copy place link';
