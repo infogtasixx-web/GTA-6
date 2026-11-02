@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1920 1080" fill="none">
+  <title>Vice City inspired sunset for the GTA 6 price and pre-order guide</title>
+  <desc>Original illustrated coastal skyline at sunset with palms, neon lights, and ocean reflections.</desc>
+  <defs>
+    <linearGradient id="sky" x1="960" y1="0" x2="960" y2="800" gradientUnits="userSpaceOnUse"><stop stop-color="#171426"/><stop offset=".42" stop-color="#60334d"/><stop offset=".72" stop-color="#dc6b78"/><stop offset="1" stop-color="#f6a576"/></linearGradient>
+    <linearGradient id="sea" x1="960" y1="690" x2="960" y2="1080" gradientUnits="userSpaceOnUse"><stop stop-color="#512b49"/><stop offset=".28" stop-color="#263d57"/><stop offset="1" stop-color="#071921"/></linearGradient>
+    <linearGradient id="shade" x1="0" y1="450" x2="1500" y2="450" gradientUnits="userSpaceOnUse"><stop stop-color="#071012" stop-opacity=".97"/><stop offset=".38" stop-color="#071012" stop-opacity=".78"/><stop offset=".72" stop-color="#071012" stop-opacity=".2"/><stop offset="1" stop-color="#071012" stop-opacity=".1"/></linearGradient>
+    <linearGradient id="sun" x1="1320" y1="208" x2="1320" y2="700" gradientUnits="userSpaceOnUse"><stop stop-color="#ffd2b0"/><stop offset=".55" stop-color="#ff86a3"/><stop offset="1" stop-color="#ef5790"/></linearGradient>
+    <linearGradient id="reflection" x1="1330" y1="620" x2="1330" y2="1040" gradientUnits="userSpaceOnUse"><stop stop-color="#ff9aa9" stop-opacity=".55"/><stop offset="1" stop-color="#ff7cb1" stop-opacity="0"/></linearGradient>
+    <radialGradient id="glow" cx="0" cy="0" r="1" gradientTransform="matrix(460 0 0 340 1320 410)" gradientUnits="userSpaceOnUse"><stop stop-color="#ff829f" stop-opacity=".52"/><stop offset="1" stop-color="#ff829f" stop-opacity="0"/></radialGradient>
+    <pattern id="windows" width="32" height="38" patternUnits="userSpaceOnUse"><path fill="#ffbdc6" fill-opacity=".62" d="M8 8h8v14H8z"/><path fill="#77e9ef" fill-opacity=".38" d="M22 8h5v14h-5z"/></pattern>
+    <filter id="soft"><feGaussianBlur stdDeviation="42"/></filter>
+  </defs>
+  <path fill="url(#sky)" d="M0 0h1920v770H0z"/>
+  <ellipse cx="1320" cy="410" fill="url(#glow)" rx="460" ry="340"/>
+  <circle cx="1320" cy="410" r="196" fill="url(#sun)"/>
+  <g fill="#64364f" fill-opacity=".56">
+    <path d="M0 532h81v-82h44v54h48V414h24v118h52V471h42v61h48v-98h27v98h52v-54h43v54h34v-137h48v137h42v-74h42v74h60v-41h55v41h39v-101h26v101h57v-62h31v62h40v-142h39v142h48v-66h40v66h39v-111h32v111h51v-57h48v57h40v-136h32v136h38v-78h45v78h57v-59h32v59h48v-111h38v111h38v-72h46v72h40v-129h29v129h41v-69h47v69h40v-101h34v101h43v-56h48v56h42v-120h35v120h66v238H0z"/>
+  </g>
+  <g opacity=".75" fill="url(#windows)">
+    <path d="M0 532h302v190H0z"/><path d="M390 532h250v206H390z"/><path d="M703 532h306v180H703z"/><path d="M1080 532h288v192h-288z"/><path d="M1430 532h490v194h-490z"/>
+  </g>
+  <g fill="#202936">
+    <path d="M560 418h50v-187h50v187h22v265H532V458h28z"/><path d="M760 518h77V344h36v-51h23v51h31v174h76v201H760z"/><path d="M1015 452h40V265h30v-37h22v37h31v187h39v260h-162z"/><path d="M1516 490h37V300h28v-44h24v44h34v190h32v228h-155z"/><path d="M1685 452h45V339h31v-53h20v53h27v113h37v255h-160z"/>
+  </g>
+  <g opacity=".5" fill="url(#windows)"><path d="M532 418h150v262H532z"/><path d="M760 344h243v360H760z"/><path d="M1015 265h162v429h-162z"/><path d="M1516 300h155v408h-155z"/><path d="M1685 339h160v369h-160z"/></g>
+  <path fill="#182b37" d="M0 682c214-22 363 16 570 1 239-18 397-34 608-4 240 34 467-5 742-28v429H0z"/>
+  <path fill="url(#sea)" d="M0 724c256-30 466 15 700-5 218-19 404-34 628 1 197 31 407-14 592-35v395H0z"/>
+  <path fill="url(#reflection)" d="M1247 612h151l119 468h-399z" opacity=".82"/>
+  <g stroke="#8debf0" stroke-opacity=".34" stroke-width="3">
+    <path d="M0 788c195-24 322 12 478-5m104-10c147-18 242 9 347-4m129-8c226-24 359 14 522-4m112-8c86-9 152-1 228-12"/>
+    <path d="M0 843c147-16 263 10 397-3m99-8c191-18 278 11 438-4m140-8c188-17 292 10 423-3m133-6c110-10 183 3 290-9"/>
+    <path d="M0 918c195-19 332 8 510-7m120-9c138-14 241 8 381-5m142-7c249-21 408 12 576-7m75-4c47-5 78 0 116-4"/>
+  </g>
+  <g fill="#0a151b">
+    <path d="M-30 0h74c27 117 33 233 21 343-9 77-20 146-42 210h-83z"/>
+    <path d="M0 230C93 143 185 116 276 121c-107 25-170 65-219 132 87-41 151-50 214-38-106 24-176 61-230 116 79-19 145-15 207 11-106-9-177 8-246 42z"/>
+    <path d="M1890 0h75v557h-45c-22-94-35-183-39-286-4-95-1-183 9-271z"/>
+    <path d="M1918 201c-83-85-169-120-256-115 100 24 163 64 211 126-82-39-145-48-206-37 100 24 168 60 220 113-76-18-139-13-198 11 102-8 169 9 235 41z"/>
+  </g>
+  <g fill="#0a151b">
+    <path d="M1640 694c10-58 19-108 26-156 3-19 19-20 23 0 8 50 13 97 16 147z"/>
+    <path d="M1673 551c-47-56-94-78-143-79 57 19 91 40 117 74-47-20-81-25-116-20 56 13 92 31 123 60-43-9-78-7-112 7 58-4 93 6 131 24z"/>
+    <path d="M285 705c8-49 15-91 20-132 2-16 16-17 19 0 6 42 10 82 12 123z"/>
+    <path d="M312 584c-40-48-80-66-122-67 49 16 78 34 100 63-40-17-69-21-99-17 48 11 79 27 105 51-37-8-67-6-96 6 49-3 80 5 112 20z"/>
+  </g>
+  <path fill="url(#shade)" d="M0 0h1920v1080H0z"/>
+  <path stroke="#ff6ca6" stroke-opacity=".25" d="M0 733c256-30 466 15 700-5 218-19 404-34 628 1 197 31 407-14 592-35"/>
+</svg>

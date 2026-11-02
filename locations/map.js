@@ -19,27 +19,69 @@
   const saveButton = document.getElementById('save-place');
   const visitButton = document.getElementById('visit-place');
   const shareButton = document.getElementById('share-place');
+  const clearProgressButton = document.getElementById('clear-progress');
   const storageNote = document.getElementById('storage-note');
   const zoomLabel = document.getElementById('zoom-level');
   const zoomIn = document.getElementById('zoom-in');
   const zoomOut = document.getElementById('zoom-out');
   const resetView = document.getElementById('reset-view');
   const fullscreenToggle = document.getElementById('fullscreen-toggle');
+  const hideAllButton = document.getElementById('hide-all');
+  const hideFoundToggle = document.getElementById('hide-found');
   const filterToggle = document.getElementById('filter-toggle');
   const filterClose = document.getElementById('filter-close');
   const filterScrim = document.getElementById('filter-scrim');
+  const placeList = document.getElementById('location-place-list');
   const storageKey = 'gta-sixx-location-states-v1';
-  const categories = [
-    { id: 'all', label: 'All named places' },
-    { id: 'state', label: 'State' },
-    { id: 'city', label: 'City' },
-    { id: 'destination', label: 'Destinations' }
+  const categoryGroups = [
+    { id: 'setting', label: 'Setting', items: [
+      { id: 'state', label: 'State', code: 'ST' },
+      { id: 'named-destinations', label: 'Named destinations', code: 'ND' }
+    ] },
+    { id: 'shops', label: 'Shops', items: [
+      { id: 'ammu-nation', label: 'Ammu-Nation', code: 'AN' },
+      { id: 'banks', label: 'Banks', code: 'BK' },
+      { id: 'clothing', label: 'Clothing stores', code: 'CL' },
+      { id: 'convenience-stores', label: 'Convenience stores', code: 'CS' },
+      { id: 'food-drink', label: 'Food & drink', code: 'FD' },
+      { id: 'gas-stations', label: 'Gas stations', code: 'GS' },
+      { id: 'barbers', label: 'Haircuts & barbers', code: 'HB' },
+      { id: 'jewelry', label: 'Jewelry stores', code: 'JW' },
+      { id: 'phone-stores', label: 'Phone stores', code: 'PH' },
+      { id: 'tattoo-shops', label: 'Tattoo shops', code: 'TT' },
+      { id: 'vehicle-dealers', label: 'Vehicle dealers', code: 'VD' },
+      { id: 'vehicle-mods', label: 'Vehicle mod shops', code: 'VM' }
+    ] },
+    { id: 'properties', label: 'Properties', items: [
+      { id: 'garages', label: 'Garages', code: 'GR' },
+      { id: 'marinas', label: 'Marinas', code: 'MR' },
+      { id: 'safehouses', label: 'Safehouses', code: 'SH' }
+    ] },
+    { id: 'activities', label: 'Activities', items: [
+      { id: 'gang-compounds', label: 'Gang compounds', code: 'GC' },
+      { id: 'golf', label: 'Golf', code: 'GF' },
+      { id: 'verified-activities', label: 'Other verified activities', code: 'AC' }
+    ] },
+    { id: 'local-places', label: 'Local places', items: [
+      { id: 'bars', label: 'Bars', code: 'BR' },
+      { id: 'cities-towns', label: 'Cities & towns', code: 'CT' },
+      { id: 'fire-stations', label: 'Fire stations', code: 'FS' },
+      { id: 'landmarks', label: 'Landmarks', code: 'LM' },
+      { id: 'nightclubs', label: 'Nightclubs', code: 'NC' },
+      { id: 'police-stations', label: 'Police stations', code: 'PS' },
+      { id: 'public-transport', label: 'Public transport', code: 'PT' },
+      { id: 'other-places', label: 'Other verified places', code: 'OP' }
+    ] }
   ];
-  const minZoom = 0.5;
+  const categories = categoryGroups.flatMap(group => group.items);
+  const SVG_NS = 'http://www.w3.org/2000/svg';
+  let mapSize = { width: 1400, height: 800 };
+  const minZoom = 1;
   const maxZoom = 3;
   const pointers = new Map();
-  let activeCategory = 'all';
   let selectedId = null;
+  let activeCategories = new Set(categories.map(category => category.id));
+  let hideFound = false;
   let persistentStorage = true;
   let memoryState = { saved: [], visited: [] };
   let zoom = 1;
@@ -48,12 +90,58 @@
   let drag = null;
   let pinch = null;
   let suppressClick = false;
-  let initialFitPending = true;
+  let activeLayoutKey = '';
 
-  const safeState = value => ({
-    saved: [...new Set(Array.isArray(value?.saved) ? value.saved.filter(id => entries.some(item => item.id === id)) : [])],
-    visited: [...new Set(Array.isArray(value?.visited) ? value.visited.filter(id => entries.some(item => item.id === id)) : [])]
-  });
+  // This is an editorial diagram layout only. These values are not in-world coordinates.
+  let diagramPositions = {
+    leonida: [700, 400],
+    'vice-city': [265, 235],
+    'leonida-keys': [490, 150],
+    'port-gellhorn': [1085, 205],
+    ambrosia: [1130, 485],
+    grassrivers: [445, 650],
+    'mount-kalaga': [900, 650]
+  };
+  const wideLayout = {
+    size: { width: 1400, height: 800 },
+    center: [700, 400],
+    positions: diagramPositions
+  };
+  const compactLayout = {
+    size: { width: 800, height: 1000 },
+    center: [400, 500],
+    positions: {
+      leonida: [400, 500],
+      'vice-city': [195, 220],
+      'leonida-keys': [605, 220],
+      'port-gellhorn': [195, 405],
+      ambrosia: [605, 405],
+      grassrivers: [195, 790],
+      'mount-kalaga': [605, 790]
+    }
+  };
+
+  function applyResponsiveLayout() {
+    const compact = viewport.clientWidth / Math.max(viewport.clientHeight, 1) < 1.2;
+    const layoutKey = compact ? 'compact' : 'wide';
+    if (activeLayoutKey && activeLayoutKey !== layoutKey) {
+      zoom = 1;
+      panX = 0;
+      panY = 0;
+    }
+    activeLayoutKey = layoutKey;
+    const layout = compact ? compactLayout : wideLayout;
+    mapSize = layout.size;
+    diagramPositions = layout.positions;
+    return layout.center;
+  }
+
+  function safeState(value) {
+    return {
+      saved: [...new Set(Array.isArray(value?.saved) ? value.saved.filter(id => entries.some(item => item.id === id)) : [])],
+      visited: [...new Set(Array.isArray(value?.visited) ? value.visited.filter(id => entries.some(item => item.id === id)) : [])]
+    };
+  }
 
   function readState() {
     if (!persistentStorage) return memoryState;
@@ -85,147 +173,227 @@
     return readState()[key].includes(id);
   }
 
-  function updateState(key, id) {
-    const current = readState();
-    const values = current[key].includes(id) ? current[key].filter(value => value !== id) : [...current[key], id];
-    const saved = writeState({ ...current, [key]: values });
-    render();
-    renderDetail();
-    const action = key === 'saved' ? (values.includes(id) ? 'Place saved.' : 'Place removed from saved.') : (values.includes(id) ? 'Marked as visited.' : 'Visit mark removed.');
-    storageNote.textContent = `${action}${saved ? '' : ' This change is temporary in this tab.'}`;
-  }
-
   function selectedEntry() {
     return entries.find(entry => entry.id === selectedId) || null;
   }
 
-  function visibleEntries() {
-    const query = search.value.trim().toLocaleLowerCase();
-    return entries.filter(entry => {
-      const categoryMatch = activeCategory === 'all' || entry.type === activeCategory;
-      const queryMatch = !query || `${entry.name} ${entry.typeLabel} ${entry.description}`.toLocaleLowerCase().includes(query);
-      return categoryMatch && queryMatch;
-    });
-  }
-
   function updatePlaceUrl(id) {
     const url = new URL(window.location.href);
-    if (id) url.searchParams.set('place', id);
-    else url.searchParams.delete('place');
+    if (id) {
+      url.searchParams.set('place', id);
+      url.searchParams.set('zoom', zoom.toFixed(2));
+    } else {
+      url.searchParams.delete('place');
+      url.searchParams.delete('zoom');
+    }
     window.history.replaceState({}, '', url);
   }
 
+  function visibleEntries() {
+    const query = search.value.trim().toLocaleLowerCase();
+    const state = readState();
+    return entries.filter(entry => {
+      const categoryMatch = activeCategories.has(entry.categoryId);
+      const queryMatch = !query || `${entry.name} ${entry.typeLabel} ${entry.description}`.toLocaleLowerCase().includes(query);
+      const foundMatch = !hideFound || !state.visited.includes(entry.id);
+      return categoryMatch && queryMatch && foundMatch;
+    });
+  }
+
   function renderCategories() {
-    const available = new Map(categories.map(item => [item.id, item.id === 'all' ? entries.length : entries.filter(entry => entry.type === item.id).length]));
-    filters.replaceChildren(...categories.map(category => {
-      const label = document.createElement('label');
-      label.className = 'lx-filter-option';
-      const name = document.createElement('span');
-      name.className = 'lx-filter-name';
-      const input = document.createElement('input');
-      input.type = 'radio';
-      input.name = 'location-category';
-      input.value = category.id;
-      input.checked = category.id === activeCategory;
-      input.setAttribute('aria-label', category.label);
-      input.addEventListener('change', () => {
-        activeCategory = category.id;
-        render();
-        if (window.matchMedia('(max-width: 700px)').matches) closeFilters();
+    const state = readState();
+    const previousOpen = new Set([...filters.querySelectorAll('.lx-category-group[open]')].map(group => group.dataset.group));
+    filters.replaceChildren(...categoryGroups.map(group => {
+      const disclosure = document.createElement('details');
+      disclosure.className = 'lx-category-group';
+      disclosure.dataset.group = group.id;
+      disclosure.open = previousOpen.size ? previousOpen.has(group.id) : group.id === 'setting' || group.id === 'local-places';
+      const heading = document.createElement('summary');
+      heading.className = 'lx-category-heading';
+      const groupTotal = group.items.reduce((sum, category) => sum + entries.filter(entry => entry.categoryId === category.id).length, 0);
+      const groupFound = group.items.reduce((sum, category) => sum + entries.filter(entry => entry.categoryId === category.id && state.visited.includes(entry.id)).length, 0);
+      const groupName = document.createElement('span');
+      groupName.textContent = group.label;
+      const groupCount = document.createElement('span');
+      groupCount.className = 'lx-group-count';
+      groupCount.textContent = `${groupFound}/${groupTotal}`;
+      heading.append(groupName, groupCount);
+      const list = document.createElement('div');
+      list.className = 'lx-category-items';
+      group.items.forEach(category => {
+        const matching = entries.filter(entry => entry.categoryId === category.id);
+        const found = matching.filter(entry => state.visited.includes(entry.id)).length;
+        const label = document.createElement('label');
+        label.className = 'lx-filter-option';
+        const name = document.createElement('span');
+        name.className = 'lx-filter-name';
+        const input = document.createElement('input');
+        input.type = 'checkbox';
+        input.name = 'location-category';
+        input.value = category.id;
+        input.checked = activeCategories.has(category.id);
+        input.setAttribute('aria-label', `${category.label}: ${matching.length} listed, ${found} found`);
+        input.addEventListener('change', () => {
+          if (input.checked) activeCategories.add(category.id);
+          else activeCategories.delete(category.id);
+          render();
+          if (window.matchMedia('(max-width: 700px)').matches) closeFilters();
+        });
+        const icon = document.createElement('span');
+        icon.className = 'lx-filter-icon';
+        icon.setAttribute('aria-hidden', 'true');
+        icon.textContent = category.code;
+        const text = document.createElement('span');
+        text.textContent = category.label;
+        name.append(input, icon, text);
+        const count = document.createElement('span');
+        count.className = 'lx-filter-count';
+        count.textContent = `${found}/${matching.length}`;
+        label.append(name, count);
+        list.append(label);
       });
-      name.append(input, document.createTextNode(category.label));
-      const count = document.createElement('span');
-      count.className = 'lx-filter-count';
-      count.textContent = String(available.get(category.id));
-      label.append(name, count);
-      return label;
+      disclosure.append(heading, list);
+      return disclosure;
     }));
   }
 
-  function makePlaceCard(entry) {
-    const button = document.createElement('button');
-    button.type = 'button';
-    button.className = 'lx-place-card';
-    button.dataset.id = entry.id;
-    button.setAttribute('aria-pressed', String(entry.id === selectedId));
-    const symbol = document.createElement('span');
-    symbol.className = 'lx-card-symbol';
-    symbol.setAttribute('aria-hidden', 'true');
-    symbol.textContent = '•';
-    const copy = document.createElement('span');
-    copy.className = 'lx-card-copy';
-    const name = document.createElement('span');
-    name.className = 'lx-card-name';
-    name.textContent = entry.name;
-    const type = document.createElement('span');
-    type.className = 'lx-card-type';
-    type.textContent = entry.typeLabel;
-    const evidence = document.createElement('span');
-    evidence.className = 'lx-card-evidence';
-    evidence.textContent = 'OFFICIALLY NAMED · POSITION UNVERIFIED';
-    copy.append(name, type, evidence);
-    const state = document.createElement('span');
-    state.className = 'lx-card-state';
-    const stateParts = [];
-    if (stateFor(entry.id, 'saved')) stateParts.push('Saved');
-    if (stateFor(entry.id, 'visited')) stateParts.push('Visited');
-    state.textContent = stateParts.join(' · ');
-    button.append(symbol, copy, state);
-    button.addEventListener('click', () => selectLocation(entry.id));
-    return button;
+  function svgElement(name, attrs = {}, text = '') {
+    const element = document.createElementNS(SVG_NS, name);
+    Object.entries(attrs).forEach(([key, value]) => element.setAttribute(key, String(value)));
+    if (text) element.textContent = text;
+    return element;
   }
 
-  function renderBoard(visible) {
-    const intro = document.createElement('div');
-    intro.className = 'lx-board-intro';
-    const eyebrow = document.createElement('p');
-    eyebrow.className = 'lx-board-eyebrow';
-    eyebrow.textContent = 'Official setting · name relationships only';
-    const note = document.createElement('p');
-    note.className = 'lx-board-note';
-    note.textContent = 'Groups reflect how the setting is named. Connectors imply no route, order, distance or location.';
-    intro.append(eyebrow, note);
-
-    const group = (kind, title, subtitle, places, className) => {
-      const section = document.createElement('section');
-      section.className = `lx-atlas-branch ${className}`;
-      section.setAttribute('aria-label', `${title}: ${places.length} places`);
-      const head = document.createElement('div');
-      head.className = 'lx-branch-head';
-      const copy = document.createElement('div');
-      const label = document.createElement('p');
-      label.className = 'lx-branch-kicker';
-      label.textContent = kind;
-      const heading = document.createElement('h3');
-      heading.textContent = title;
-      copy.append(label, heading);
-      const count = document.createElement('span');
-      count.className = 'lx-branch-count';
-      count.textContent = String(places.length).padStart(2, '0');
-      head.append(copy, count);
-      const note = document.createElement('p');
-      note.className = 'lx-branch-subtitle';
-      note.textContent = subtitle;
-      const cards = document.createElement('div');
-      cards.className = 'lx-branch-places';
-      cards.append(...places.map(makePlaceCard));
-      section.append(head, note, cards);
-      return section;
-    };
-
-    const state = visible.filter(entry => entry.type === 'state');
-    const city = visible.filter(entry => entry.type === 'city');
-    const destinations = visible.filter(entry => entry.type === 'destination');
-    const root = group('WIDER SETTING', 'Leonida', 'The officially named state setting.', state, 'lx-atlas-root');
-    const cityGroup = group('NAMED CITY', 'Vice City', 'Shown as part of the Leonida setting.', city, 'lx-atlas-city');
-    const destinationsGroup = group('NAMED DESTINATIONS', 'Across the setting', 'Names recorded in official GTA VI material.', destinations, 'lx-atlas-destinations');
-    const branches = document.createElement('div');
-    branches.className = 'lx-atlas-branches';
-    branches.append(cityGroup, destinationsGroup);
-    board.replaceChildren(intro, root, branches);
+  function addNode(svgLayer, entry) {
+    const [x, y] = diagramPositions[entry.id] || [700, 400];
+    const node = svgElement('g', {
+      class: 'lx-diagram-node',
+      transform: `translate(${x} ${y})`,
+      tabindex: '0',
+      role: 'button',
+      'aria-label': `${entry.name}. ${entry.typeLabel}. Officially named. Diagram position only.`,
+      'aria-pressed': String(entry.id === selectedId),
+      'data-map-node': entry.id
+    });
+    const rect = svgElement('rect', { x: -135, y: -43, width: 270, height: 86, rx: 14, class: 'lx-node-surface' });
+    const index = svgElement('circle', { cx: -103, cy: 0, r: 17, class: 'lx-node-index' });
+    const indexText = svgElement('text', { x: -103, y: 4, class: 'lx-node-number', 'text-anchor': 'middle' }, String(entries.indexOf(entry) + 1).padStart(2, '0'));
+    const type = svgElement('text', { x: -73, y: -10, class: 'lx-node-type' }, entry.typeLabel.toUpperCase());
+    const nameSize = entry.name.length > 22 ? 14 : entry.name.length > 15 ? 16 : 19;
+    const name = svgElement('text', { x: -73, y: 17, class: 'lx-node-name', 'font-size': nameSize }, entry.name);
+    const marker = svgElement('circle', { cx: 112, cy: -23, r: 5, class: 'lx-node-status' });
+    node.append(rect, index, indexText, type, name, marker);
+    const select = () => selectLocation(entry.id);
+    node.addEventListener('click', select);
+    node.addEventListener('keydown', event => {
+      if (event.key === 'Enter' || event.key === ' ') {
+        event.preventDefault();
+        select();
+      }
+    });
+    svgLayer.append(node);
   }
 
-  function renderDetail() {
+  function makeDiagram(visible) {
+    const center = applyResponsiveLayout();
+    const svg = svgElement('svg', {
+      id: 'setting-diagram',
+      class: 'lx-diagram',
+      viewBox: `0 0 ${mapSize.width} ${mapSize.height}`,
+      preserveAspectRatio: 'xMidYMid meet',
+      role: 'group',
+      'aria-labelledby': 'diagram-title diagram-description'
+    });
+    svg.append(
+      svgElement('title', { id: 'diagram-title' }, 'GTA VI setting relationship index'),
+      svgElement('desc', { id: 'diagram-description' }, 'A zoomable vector diagram with Leonida at the center and six officially named settings around it. The node positions are diagram layout only and do not show geography.')
+    );
+
+    const defs = svgElement('defs');
+    const glow = svgElement('radialGradient', { id: 'diagram-glow' });
+    glow.append(svgElement('stop', { offset: '0%', 'stop-color': '#ff4f94', 'stop-opacity': '.16' }), svgElement('stop', { offset: '100%', 'stop-color': '#ff4f94', 'stop-opacity': '0' }));
+    const grid = svgElement('pattern', { id: 'diagram-grid', width: 44, height: 44, patternUnits: 'userSpaceOnUse' });
+    grid.append(svgElement('path', { d: 'M44 0H0V44', fill: 'none', stroke: '#a2dde0', 'stroke-opacity': '.09', 'stroke-width': 1 }));
+    defs.append(glow, grid);
+    svg.append(defs);
+
+    const layer = svgElement('g', { id: 'diagram-layer' });
+    layer.append(svgElement('rect', { width: mapSize.width, height: mapSize.height, fill: '#091417' }));
+    layer.append(svgElement('rect', { width: mapSize.width, height: mapSize.height, fill: 'url(#diagram-grid)' }));
+    layer.append(svgElement('ellipse', { cx: center[0], cy: center[1], rx: mapSize.width * .35, ry: mapSize.height * .34, fill: 'url(#diagram-glow)' }));
+    [130, 198, 275].forEach((radius, index) => layer.append(svgElement('circle', {
+      cx: center[0], cy: center[1], r: radius, class: 'lx-diagram-ring', 'stroke-dasharray': index ? '2 11' : 'none'
+    })));
+
+    const lineGroup = svgElement('g', { class: 'lx-diagram-links', 'aria-hidden': 'true' });
+    visible.filter(entry => entry.id !== 'leonida').forEach(entry => {
+      const [x, y] = diagramPositions[entry.id];
+      lineGroup.append(svgElement('path', { d: `M${center[0]} ${center[1]} Q${(center[0] + x) / 2} ${(center[1] + y) / 2 - 18} ${x} ${y}`, class: 'lx-diagram-link' }));
+    });
+    layer.append(lineGroup);
+
+    const eyebrow = svgElement('text', { x: 54, y: 58, class: 'lx-diagram-overline' }, 'OFFICIAL PLACE NAMES / RELATIONSHIP INDEX');
+    const note = svgElement('text', { x: 54, y: 82, class: 'lx-diagram-caption' }, 'Node arrangement is editorial only · no verified coordinates shown');
+    layer.append(eyebrow, note);
+
+    if (visible.length) {
+      const diagramEntries = visible.some(entry => entry.id === 'leonida') ? visible : [...visible, entries.find(entry => entry.id === 'leonida')].filter(Boolean);
+      diagramEntries.forEach(entry => addNode(layer, entry));
+    }
+    else {
+      layer.append(svgElement('text', { x: center[0], y: center[1] - 10, class: 'lx-diagram-empty', 'text-anchor': 'middle' }, 'No matching place names'));
+      layer.append(svgElement('text', { x: center[0], y: center[1] + 22, class: 'lx-diagram-caption', 'text-anchor': 'middle' }, 'Clear a filter or search for another name.'));
+    }
+    svg.append(layer);
+    return svg;
+  }
+
+  function updateView() {
+    const layer = board.querySelector('#diagram-layer');
+    if (layer) layer.setAttribute('transform', `translate(${panX} ${panY}) scale(${zoom})`);
+    zoomLabel.value = `${Math.round(zoom * 100)}%`;
+    zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
+    zoomOut.disabled = zoom <= minZoom + 0.001;
+    zoomIn.disabled = zoom >= maxZoom - 0.001;
+  }
+
+  function clampPan() {
+    panX = Math.max(mapSize.width * (1 - zoom), Math.min(0, panX));
+    panY = Math.max(mapSize.height * (1 - zoom), Math.min(0, panY));
+  }
+
+  function screenPoint(clientX, clientY) {
+    const svg = board.querySelector('#setting-diagram');
+    if (!svg) return { x: mapSize.width / 2, y: mapSize.height / 2 };
+    const point = svg.createSVGPoint();
+    point.x = clientX;
+    point.y = clientY;
+    const matrix = svg.getScreenCTM();
+    return matrix ? point.matrixTransform(matrix.inverse()) : { x: mapSize.width / 2, y: mapSize.height / 2 };
+  }
+
+  function setZoom(next, clientX, clientY) {
+    const rect = viewport.getBoundingClientRect();
+    const anchor = Number.isFinite(clientX) ? screenPoint(clientX, clientY) : screenPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    const nextZoom = Math.max(minZoom, Math.min(maxZoom, next));
+    const worldX = (anchor.x - panX) / zoom;
+    const worldY = (anchor.y - panY) / zoom;
+    panX = anchor.x - worldX * nextZoom;
+    panY = anchor.y - worldY * nextZoom;
+    zoom = nextZoom;
+    clampPan();
+    updateView();
+    if (selectedId) updatePlaceUrl(selectedId);
+  }
+
+  function fitView() {
+    zoom = 1;
+    panX = 0;
+    panY = 0;
+    updateView();
+  }
+
+  function updateDetail() {
     const entry = selectedEntry();
     const enabled = Boolean(entry);
     saveButton.disabled = !enabled;
@@ -245,99 +413,78 @@
     selectedName.textContent = entry.name;
     description.textContent = entry.description;
     evidenceStatus.textContent = entry.status;
-    source.textContent = `${entry.source}. The source confirms the name; it does not establish a map position.`;
+    source.textContent = `${entry.source}. This confirms the name, not a geographic position.`;
     sourceLink.href = entry.sourceUrl;
     sourceLink.hidden = !entry.sourceUrl;
     saveButton.textContent = stateFor(entry.id, 'saved') ? 'Remove saved' : 'Save place';
-    visitButton.textContent = stateFor(entry.id, 'visited') ? 'Remove visit mark' : 'Mark visited';
+    visitButton.textContent = stateFor(entry.id, 'visited') ? 'Remove found mark' : 'Mark found';
     shareButton.textContent = 'Copy place link';
-  }
-
-  function updateView() {
-    board.style.transform = `translate(${panX}px, ${panY}px) scale(${zoom})`;
-    zoomLabel.value = `${Math.round(zoom * 100)}%`;
-    zoomLabel.textContent = `${Math.round(zoom * 100)}%`;
-    zoomOut.disabled = zoom <= minZoom + 0.001;
-    zoomIn.disabled = zoom >= maxZoom - 0.001;
-  }
-
-  function clampPan() {
-    const view = viewport.getBoundingClientRect();
-    const width = board.offsetWidth * zoom;
-    const height = board.offsetHeight * zoom;
-    const minX = Math.min(0, view.width - width);
-    const minY = Math.min(0, view.height - height);
-    panX = Math.max(minX, Math.min(Math.max(0, view.width - width), panX));
-    panY = Math.max(minY, Math.min(Math.max(0, view.height - height), panY));
-  }
-
-  function setZoom(next, anchorX, anchorY) {
-    const rect = viewport.getBoundingClientRect();
-    const x = Number.isFinite(anchorX) ? anchorX - rect.left : rect.width / 2;
-    const y = Number.isFinite(anchorY) ? anchorY - rect.top : rect.height / 2;
-    const nextZoom = Math.max(minZoom, Math.min(maxZoom, next));
-    const contentX = (x - panX) / zoom;
-    const contentY = (y - panY) / zoom;
-    panX = x - contentX * nextZoom;
-    panY = y - contentY * nextZoom;
-    zoom = nextZoom;
-    clampPan();
-    updateView();
-  }
-
-  function fitView() {
-    const view = viewport.getBoundingClientRect();
-    const width = Math.max(board.offsetWidth, 1);
-    const height = Math.max(board.offsetHeight, 1);
-    zoom = Math.max(minZoom, Math.min(1, view.width / width, view.height / height));
-    panX = Math.max(0, (view.width - width * zoom) / 2);
-    panY = Math.max(0, (view.height - height * zoom) / 2);
-    clampPan();
-    updateView();
   }
 
   function render() {
     const visible = visibleEntries();
     const state = readState();
-    resultCount.textContent = `${visible.length} of ${entries.length} places · ${state.saved.length} saved · ${state.visited.length} visited`;
-    renderBoard(visible);
+    resultCount.textContent = `${visible.length} of ${entries.length} source-checked names · ${state.visited.length} found · ${state.saved.length} saved`;
+    board.replaceChildren(makeDiagram(visible));
+    const visibleIds = new Set(visible.map(entry => entry.id));
+    placeList.querySelectorAll('[data-id]').forEach(card => { card.hidden = !visibleIds.has(card.dataset.id); });
     emptyState.hidden = visible.length !== 0;
+    emptyState.textContent = 'No source-checked places match this search and category selection. Turn categories back on or clear your search.';
     clearSearch.hidden = search.value.length === 0;
-    if (selectedId && !visible.some(entry => entry.id === selectedId)) {
+    if (selectedId && !visibleIds.has(selectedId)) {
       selectedId = null;
       updatePlaceUrl(null);
-      renderDetail();
+      updateDetail();
     }
-    if (selectedId) {
-      const selectedButton = board.querySelector(`[data-id="${CSS.escape(selectedId)}"]`);
-      if (selectedButton) selectedButton.setAttribute('aria-pressed', 'true');
-    }
-    requestAnimationFrame(() => {
-      if (initialFitPending) {
-        initialFitPending = false;
-        fitView();
-      } else {
-        clampPan();
-        updateView();
-      }
+    placeList.querySelectorAll('[data-select-place]').forEach(button => {
+      button.setAttribute('aria-pressed', String(button.dataset.selectPlace === selectedId));
     });
+    updateView();
+  }
+
+  function focusLocation(id, targetZoom = 1.65) {
+    const [x, y] = diagramPositions[id] || [mapSize.width / 2, mapSize.height / 2];
+    const rect = viewport.getBoundingClientRect();
+    const center = screenPoint(rect.left + rect.width / 2, rect.top + rect.height / 2);
+    zoom = Math.max(minZoom, Math.min(maxZoom, Number(targetZoom) || 1.65));
+    panX = center.x - x * zoom;
+    panY = center.y - y * zoom;
+    clampPan();
+    updateView();
   }
 
   function selectLocation(id) {
+    if (!entries.some(entry => entry.id === id)) return;
     selectedId = id;
-    updatePlaceUrl(id);
     render();
-    renderDetail();
+    focusLocation(id);
+    updatePlaceUrl(id);
+    updateDetail();
     if (window.matchMedia('(max-width: 700px)').matches) {
-      document.getElementById('location-detail').scrollIntoView({ behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth', block: 'nearest' });
+      document.getElementById('location-detail').scrollIntoView({
+        behavior: window.matchMedia('(prefers-reduced-motion: reduce)').matches ? 'auto' : 'smooth',
+        block: 'nearest'
+      });
     }
+  }
+
+  function updateState(key, id) {
+    const current = readState();
+    const values = current[key].includes(id) ? current[key].filter(value => value !== id) : [...current[key], id];
+    const saved = writeState({ ...current, [key]: values });
+    renderCategories();
+    render();
+    updateDetail();
+    const action = key === 'saved' ? (values.includes(id) ? 'Place saved.' : 'Place removed from saved.') : (values.includes(id) ? 'Place marked found.' : 'Found mark removed.');
+    storageNote.textContent = `${action}${saved ? '' : ' This change is temporary in this tab.'}`;
   }
 
   function filterOpen() {
     return window.matchMedia('(max-width: 700px)').matches ? explorer.classList.contains('filters-open') : !explorer.classList.contains('filters-collapsed');
   }
 
-  function setMobileDrawerSemantics(open) {
+  function updateFilterControls() {
+    const open = filterOpen();
     const panel = document.getElementById('location-filters');
     if (open && window.matchMedia('(max-width: 700px)').matches) {
       panel.setAttribute('role', 'dialog');
@@ -348,19 +495,13 @@
       panel.removeAttribute('aria-modal');
       panel.removeAttribute('aria-labelledby');
     }
-  }
-
-  function updateFilterControls() {
-    const open = filterOpen();
-    setMobileDrawerSemantics(open);
     filterToggle.setAttribute('aria-expanded', String(open));
     filterToggle.textContent = open ? 'Hide filters' : 'Filters';
     filterScrim.hidden = !(open && window.matchMedia('(max-width: 700px)').matches);
   }
 
   function closeFilters(returnFocus = true) {
-    explorer.classList.remove('filters-open');
-    explorer.classList.remove('filters-collapsed');
+    explorer.classList.remove('filters-open', 'filters-collapsed');
     updateFilterControls();
     if (returnFocus) filterToggle.focus();
   }
@@ -378,8 +519,12 @@
   filterClose.addEventListener('click', () => closeFilters());
   filterScrim.addEventListener('click', () => closeFilters());
   document.getElementById('location-filters').addEventListener('keydown', event => {
+    if (event.key === 'Escape' && window.matchMedia('(max-width: 700px)').matches) {
+      closeFilters();
+      return;
+    }
     if (event.key !== 'Tab' || !window.matchMedia('(max-width: 700px)').matches || !explorer.classList.contains('filters-open')) return;
-    const focusable = [...document.getElementById('location-filters').querySelectorAll('button:not([disabled]), input:not([disabled])')].filter(element => element.getClientRects().length);
+    const focusable = [...document.getElementById('location-filters').querySelectorAll('button:not([disabled]), input:not([disabled]), summary, a[href]')].filter(element => element.getClientRects().length);
     const first = focusable[0];
     const last = focusable[focusable.length - 1];
     if (event.shiftKey && (document.activeElement === first || !document.getElementById('location-filters').contains(document.activeElement))) {
@@ -397,22 +542,52 @@
 
   search.addEventListener('input', render);
   clearSearch.addEventListener('click', () => { search.value = ''; render(); search.focus(); });
+  hideAllButton.addEventListener('click', () => {
+    activeCategories.clear();
+    renderCategories();
+    render();
+  });
+  hideFoundToggle.addEventListener('change', () => {
+    hideFound = hideFoundToggle.checked;
+    render();
+  });
   clearFilters.addEventListener('click', () => {
     search.value = '';
-    activeCategory = 'all';
+    activeCategories = new Set(categories.map(category => category.id));
+    hideFound = false;
+    hideFoundToggle.checked = false;
     selectedId = null;
     updatePlaceUrl(null);
     renderCategories();
     render();
+    updateDetail();
     search.focus();
+  });
+  placeList.addEventListener('click', event => {
+    const button = event.target.closest('[data-select-place]');
+    if (button) selectLocation(button.dataset.selectPlace);
   });
   saveButton.addEventListener('click', () => { if (selectedId) updateState('saved', selectedId); });
   visitButton.addEventListener('click', () => { if (selectedId) updateState('visited', selectedId); });
+  clearProgressButton.addEventListener('click', () => {
+    const current = readState();
+    if (!current.saved.length && !current.visited.length) {
+      storageNote.textContent = 'There is no saved or found progress to clear.';
+      return;
+    }
+    if (!window.confirm('Clear every saved place and found mark stored in this browser? This cannot be undone.')) return;
+    const saved = writeState({ saved: [], visited: [] });
+    renderCategories();
+    render();
+    updateDetail();
+    storageNote.textContent = saved ? 'Saved places and found marks were cleared from this browser.' : 'Progress was cleared for this tab only because browser storage is unavailable.';
+  });
   shareButton.addEventListener('click', async () => {
     const entry = selectedEntry();
     if (!entry) return;
     const url = new URL(window.location.href);
     url.searchParams.set('place', entry.id);
+    url.searchParams.set('zoom', zoom.toFixed(2));
     try {
       await navigator.clipboard.writeText(url.toString());
       storageNote.textContent = `Share link copied for ${entry.name}.`;
@@ -429,12 +604,27 @@
     const requested = new URL(window.location.href).searchParams.get('place');
     selectedId = entries.some(entry => entry.id === requested) ? requested : null;
     render();
-    renderDetail();
+    if (selectedId) focusLocation(selectedId, Number(new URL(window.location.href).searchParams.get('zoom')) || 1.65);
+    updateDetail();
   });
+  let resizeFrame = 0;
+  window.addEventListener('resize', () => {
+    if (resizeFrame) return;
+    resizeFrame = window.requestAnimationFrame(() => {
+      resizeFrame = 0;
+      const selectedZoom = zoom;
+      render();
+      if (selectedId) {
+        focusLocation(selectedId, selectedZoom);
+        updatePlaceUrl(selectedId);
+      }
+    });
+  }, { passive: true });
 
   zoomIn.addEventListener('click', () => setZoom(zoom * 1.25));
   zoomOut.addEventListener('click', () => setZoom(zoom / 1.25));
-  resetView.addEventListener('click', fitView);
+  resetView.addEventListener('click', () => { fitView(); if (selectedId) updatePlaceUrl(selectedId); });
+
   function syncFullscreenButton() {
     const active = document.fullscreenElement === document.querySelector('.lx-viewer');
     fullscreenToggle.textContent = active ? '⤢' : '⛶';
@@ -452,57 +642,57 @@
       storageNote.textContent = 'Fullscreen could not be opened. Try the browser’s full-screen control.';
     }
   });
-  document.addEventListener('fullscreenchange', () => { syncFullscreenButton(); requestAnimationFrame(() => { clampPan(); updateView(); }); });
+  document.addEventListener('fullscreenchange', () => { syncFullscreenButton(); updateView(); });
+
   viewport.addEventListener('wheel', event => {
     event.preventDefault();
     setZoom(zoom * (event.deltaY < 0 ? 1.12 : 1 / 1.12), event.clientX, event.clientY);
   }, { passive: false });
 
   viewport.addEventListener('pointerdown', event => {
-    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY, target: event.target });
+    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     if (pointers.size === 2) {
       drag = null;
-      viewport.classList.add('is-dragging');
       const [first, second] = [...pointers.values()];
-      const rect = viewport.getBoundingClientRect();
+      const firstPoint = screenPoint(first.x, first.y);
+      const secondPoint = screenPoint(second.x, second.y);
+      const center = { x: (firstPoint.x + secondPoint.x) / 2, y: (firstPoint.y + secondPoint.y) / 2 };
       pinch = {
-        distance: Math.hypot(first.x - second.x, first.y - second.y),
-        zoom,
-        panX,
-        panY,
-        centerX: ((first.x + second.x) / 2) - rect.left,
-        centerY: ((first.y + second.y) / 2) - rect.top
+        distance: Math.hypot(firstPoint.x - secondPoint.x, firstPoint.y - secondPoint.y),
+        zoom, panX, panY,
+        center,
+        world: { x: (center.x - panX) / zoom, y: (center.y - panY) / zoom }
       };
+      viewport.classList.add('is-dragging');
       return;
     }
-    const interactive = event.target.closest('button,input,a');
-    if (pointers.size === 1 && !interactive && (event.pointerType === 'touch' || event.button === 0)) {
-      drag = { id: event.pointerId, x: event.clientX, y: event.clientY, panX, panY, moved: false };
+    const node = event.target.closest('[data-map-node]');
+    if (pointers.size === 1 && !node && (event.pointerType === 'touch' || event.button === 0)) {
+      const point = screenPoint(event.clientX, event.clientY);
+      drag = { id: event.pointerId, point, panX, panY, moved: false };
       viewport.classList.add('is-dragging');
     }
   });
 
   window.addEventListener('pointermove', event => {
     if (!pointers.has(event.pointerId)) return;
-    pointers.set(event.pointerId, { ...pointers.get(event.pointerId), x: event.clientX, y: event.clientY });
+    pointers.set(event.pointerId, { x: event.clientX, y: event.clientY });
     if (pinch && pointers.size >= 2) {
       const [first, second] = [...pointers.values()];
-      const rect = viewport.getBoundingClientRect();
-      const centerX = (first.x + second.x) / 2 - rect.left;
-      const centerY = (first.y + second.y) / 2 - rect.top;
-      const ratio = Math.hypot(first.x - second.x, first.y - second.y) / Math.max(pinch.distance, 1);
-      const nextZoom = Math.max(minZoom, Math.min(maxZoom, pinch.zoom * ratio));
-      const worldX = (pinch.centerX - pinch.panX) / pinch.zoom;
-      const worldY = (pinch.centerY - pinch.panY) / pinch.zoom;
-      zoom = nextZoom;
-      panX = centerX - worldX * zoom;
-      panY = centerY - worldY * zoom;
+      const firstPoint = screenPoint(first.x, first.y);
+      const secondPoint = screenPoint(second.x, second.y);
+      const center = { x: (firstPoint.x + secondPoint.x) / 2, y: (firstPoint.y + secondPoint.y) / 2 };
+      const distance = Math.hypot(firstPoint.x - secondPoint.x, firstPoint.y - secondPoint.y);
+      zoom = Math.max(minZoom, Math.min(maxZoom, pinch.zoom * distance / Math.max(pinch.distance, 1)));
+      panX = center.x - pinch.world.x * zoom;
+      panY = center.y - pinch.world.y * zoom;
       clampPan();
       updateView();
     } else if (drag && drag.id === event.pointerId) {
-      const dx = event.clientX - drag.x;
-      const dy = event.clientY - drag.y;
-      drag.moved ||= Math.abs(dx) + Math.abs(dy) > 4;
+      const point = screenPoint(event.clientX, event.clientY);
+      const dx = point.x - drag.point.x;
+      const dy = point.y - drag.point.y;
+      drag.moved ||= Math.abs(dx) + Math.abs(dy) > 3;
       panX = drag.panX + dx;
       panY = drag.panY + dy;
       clampPan();
@@ -523,6 +713,7 @@
       drag = null;
     }
     if (!pointers.size) viewport.classList.remove('is-dragging');
+    if (!pointers.size && selectedId) updatePlaceUrl(selectedId);
   }
   window.addEventListener('pointerup', endPointer);
   window.addEventListener('pointercancel', endPointer);
@@ -531,36 +722,44 @@
   }, true);
 
   viewport.addEventListener('keydown', event => {
-    const step = 36;
+    const step = 36 / zoom;
+    if (event.key === 'Home') {
+      event.preventDefault();
+      fitView();
+      if (selectedId) updatePlaceUrl(selectedId);
+      return;
+    }
     if (event.key === 'ArrowLeft') panX += step;
     else if (event.key === 'ArrowRight') panX -= step;
     else if (event.key === 'ArrowUp') panY += step;
     else if (event.key === 'ArrowDown') panY -= step;
-    else if (event.key === '+' || event.key === '=') setZoom(zoom * 1.2);
-    else if (event.key === '-' || event.key === '_') setZoom(zoom / 1.2);
-    else if (event.key === 'Home') fitView();
+    else if (event.key === '+' || event.key === '=') { setZoom(zoom * 1.2); return; }
+    else if (event.key === '-' || event.key === '_') { setZoom(zoom / 1.2); return; }
     else return;
     event.preventDefault();
     clampPan();
     updateView();
-  });
-
-  document.addEventListener('keydown', event => {
-    if (event.key === 'Escape' && explorer.classList.contains('filters-open')) closeFilters();
+    if (selectedId) updatePlaceUrl(selectedId);
   });
 
   if (!entries.length) {
-    resultCount.textContent = 'Place data could not be loaded.';
+    resultCount.textContent = 'The interactive place index could not be loaded.';
     emptyState.hidden = false;
-    emptyState.textContent = 'The place list is unavailable. Reload the page to try again.';
+    emptyState.textContent = 'The place data failed to load. The readable place list remains available below; reload the page to retry the diagram.';
+    board.replaceChildren(makeDiagram([]));
     return;
   }
-  const requested = new URL(window.location.href).searchParams.get('place');
+
+  const initialUrl = new URL(window.location.href);
+  const requested = initialUrl.searchParams.get('place');
   selectedId = entries.some(entry => entry.id === requested) ? requested : null;
   renderCategories();
   render();
-  renderDetail();
+  if (selectedId) {
+    focusLocation(selectedId, Number(initialUrl.searchParams.get('zoom')) || 1.65);
+    updatePlaceUrl(selectedId);
+  }
+  updateDetail();
   updateFilterControls();
   syncFullscreenButton();
-  window.addEventListener('resize', () => { clampPan(); updateView(); }, { passive: true });
 })();

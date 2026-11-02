@@ -1,6 +1,6 @@
 .price-guide-page{--pp-cyan:#69e7ec;--pp-pink:#ff4f94}
-.pp-hero{min-height:560px;background:radial-gradient(ellipse at 82% 24%,rgba(255,79,148,.14),transparent 30%),radial-gradient(ellipse at 65% 90%,rgba(105,231,236,.1),transparent 35%),linear-gradient(125deg,#071012,#101a1e 70%,#17131b)}
-.pp-hero::before{background:repeating-linear-gradient(0deg,transparent 0 43px,rgba(105,231,236,.035) 44px),repeating-linear-gradient(90deg,transparent 0 43px,rgba(105,231,236,.035) 44px);transform:none}
+.pp-hero{min-height:560px;--hero-image:url('../media/gta-6-price-pre-order-vice-city-hero.svg');background:linear-gradient(125deg,#071012,#101a1e 70%,#17131b)}
+.pp-hero::before{background-image:repeating-linear-gradient(0deg,transparent 0 43px,rgba(105,231,236,.035) 44px),repeating-linear-gradient(90deg,transparent 0 43px,rgba(105,231,236,.035) 44px),linear-gradient(90deg,rgba(7,16,18,.2),rgba(7,16,18,.06) 68%,rgba(7,16,18,.16)),var(--hero-image);background-size:44px 44px,44px 44px,cover,cover;background-repeat:repeat,repeat,no-repeat,no-repeat;background-position:center,center,center,center 42%;transform:none}
 .pp-hero::after{display:none}
 .pp-hero-inner{padding-block:clamp(62px,9vw,112px) 60px}
 .pp-hero h1{max-width:900px;font-size:clamp(50px,8vw,100px)}
@@ -42,5 +42,5 @@
 .pp-next .g-actions{margin-top:20px}
 .pp-next .g-button.secondary{border-color:rgba(7,16,18,.38);background:transparent;color:var(--ink)}
 @media(max-width:800px){.pp-store-grid{grid-template-columns:1fr}.pp-store-card{min-height:150px}.pp-hero{min-height:500px}}
-@media(max-width:560px){.pp-hero-inner{padding-block:55px 45px}.pp-hero h1{font-size:clamp(45px,13vw,68px)}.pp-price-grid{grid-template-columns:1fr}.pp-price-card{padding:19px}.pp-store-card{padding:18px}.pp-next .g-actions{display:grid;grid-template-columns:1fr}.pp-next .g-button{justify-content:center}}
+@media(max-width:560px){.pp-hero::before{background-position:center,center,center,34% center}.pp-hero-inner{padding-block:55px 45px}.pp-hero h1{font-size:clamp(45px,13vw,68px)}.pp-price-grid{grid-template-columns:1fr}.pp-price-card{padding:19px}.pp-store-card{padding:18px}.pp-next .g-actions{display:grid;grid-template-columns:1fr}.pp-next .g-button{justify-content:center}}
 @media(prefers-reduced-motion:reduce){.pp-store-card,.price-guide-page .g-button{transition:none}.pp-store-card:hover{transform:none}}

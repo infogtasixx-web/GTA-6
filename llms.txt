@@ -9,12 +9,17 @@
 - [GTA VI characters](https://gta-sixx.com/characters/): Jason Duval, Lucia Caminos, Cal Hampton, Boobie Ike, Dre’Quan Priest, Real Dimez (Bae-Luxe and Roxy), Raul Bautista and Brian Heder.
 - [GTA VI locations](https://gta-sixx.com/locations/): Leonida, Vice City, the Leonida Keys, Port Gellhorn, Ambrosia, Grassrivers and Mount Kalaga National Park.
 - [GTA VI vehicles](https://gta-sixx.com/vehicles/): named vehicles and visible transport, with explicit notes that Rockstar has not published a complete vehicle roster.
+- [GTA 6 release date history](https://gta-sixx.com/gta-6-release-date-history/): primary-source timeline from the original 2025 release window through the currently listed November 19, 2026 date.
+- [GTA VI news](https://gta-sixx.com/news/): selected official announcements and video updates with Rockstar source links.
+- [GTA 6 price and pre-order guide](https://gta-sixx.com/gta-6-price-pre-order/): announced US prices, official storefronts and regional availability notes.
+- [Privacy Policy](https://gta-sixx.com/privacy-policy/): explains the current static site's contact, storage, third-party media and hosting behavior.
 
 - [Contact GTASIXX](https://gta-sixx.com/contact/): contact details and correction submissions.
 
-## Verified core facts (checked October 15, 2026)
+## Verified core facts (checked October 28, 2026)
 - Full title: Grand Theft Auto VI; common names: GTA VI and GTA 6.
 - Rockstar Games lists November 19, 2026 as the release date.
+- Rockstar's December 2023 Trailer 1 announcement gave an initial 2025 window. Its May 2, 2025 announcement set May 26, 2026; its November 6, 2025 announcement moved the date to November 19, 2026.
 - Announced platforms: PlayStation 5 and Xbox Series X|S. Rockstar has not announced a PC version.
 - Rockstar describes GTA VI as a single-player experience.
 - Setting: the fictional state of Leonida, including modern-day Vice City and destinations beyond the city.
@@ -29,6 +34,8 @@
 - [Rockstar Games — GTA VI media library](https://www.rockstargames.com/VI/media)
 - [Rockstar Games — editions and listed benefits](https://www.rockstargames.com/VI/editions)
 - [Rockstar Games — November 19, 2026 release announcement](https://www.rockstargames.com/newswire/article/ak3ak31a49a221/grand-theft-auto-vi-is-now-set-to-launch-november-19-2026)
+- [Rockstar Games — original 2025 release window announcement](https://www.rockstargames.com/newswire/article/8978kok9385a82/grand-theft-auto-vi-watch-trailer-1-now/)
+- [Rockstar Games — May 26, 2026 date announcement](https://www.rockstargames.com/newswire/article/258aa538o412ok/grand-theft-auto-vi-is-now-coming-may-26-2026)
 - [Rockstar Support — platforms and editions](https://support.rockstargames.com/articles/4QfG4FmZCf5W1gS8jy4UVT/grand-theft-auto-vi-platform-editions-and-versions)
 
 ## Editorial notes
